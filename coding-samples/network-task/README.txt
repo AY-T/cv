@@ -1,7 +1,7 @@
 Sample coding project: network speed
 ===================
 
-- To run the code, download the repo and open network_speed.html in your browser. (Or just download network_speed.html and src/network_speed.js)
+- To run the code, open https://anttiy.kapsi.fi/coding/network_speed.html OR download the repo and open network_speed.html in your browser. (Or just download network_speed.html and src/network_speed.js)
 
 - Unit tests are in the same file, and are output to the JavaScript console (ctrl+shift+j in most browsers).
 
