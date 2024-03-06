@@ -3,11 +3,11 @@
  * It then finds the network stations within reach for specific coordinates, and selects the network station with the
  * highest non-zero speed (if any). Speed is inversely proportionate to distance and is defined in detail in get_speed().
  *
- * Author: Antti Yli-Tainio
+ * Author: Antti Y
  *
  * Email: firstname.lastname(ät)iki.fi
  * 
- * Copyright: Antti Yli-Tainio, 2022. Free to use for review purposes.
+ * Copyright: Antti Y, 2022. Free to use for review purposes.
  */
 
 
