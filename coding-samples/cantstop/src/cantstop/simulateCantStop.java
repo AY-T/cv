@@ -10,16 +10,16 @@ public class simulateCantStop {
     private static final int TRACK_LENGTHS[] = {  0,  0,  3,  5,  7,  9, 11, 13, 11,  9,  7,  5,  3 };
 
     // Option to force stop of rolling after a steps on a track have reached or exceeded track length.
-    private static final boolean allow_stop_by_track_end = true;
+    private static final boolean ALLOW_STOP_BY_TRACK_END = true;
 
 
     /** Throws a 6-sided die.
       * @return int
       */
     private static int throwDie() {
-            Random random_generator = new Random();
+            Random randomGenerator = new Random();
     
-        return (random_generator.nextInt(6) + 1);
+        return (randomGenerator.nextInt(6) + 1);
     }
 
 
@@ -37,17 +37,17 @@ public class simulateCantStop {
     }
 
 
-    /** Calculates the number of matches of a single dice_combination_pair for all commited tracks.
+    /** Calculates the number of matches of a single diceCombinationPair for all commited tracks.
       * 
-      * @param dice_combination_pair[2]: sum of two d6 dice, between 2-12.
+      * @param diceCombinationPair[2]: sum of two d6 dice, between 2-12.
       * @param committedTracks[3]: unique values between 2-12 signifying chosen tracks to advance.
       * @return int (1 or 2)
       */
-    private static int numberOfMatches(int[] dice_combination_pair, int[] committedTracks) {
+    private static int numberOfMatches(int[] diceCombinationPair, int[] committedTracks) {
         int matches = 0;
         for (int pair = 0; pair < 2; pair++) {
             for (int track = 0; track < 3; track++) {
-                if (dice_combination_pair[pair] == committedTracks[track]) {
+                if (diceCombinationPair[pair] == committedTracks[track]) {
                     matches++;
                 }
             }
@@ -65,14 +65,14 @@ public class simulateCantStop {
       * @return int[]
       */  
     private static int[] whichCombinationsMaximizeStepsTaken(int[][] diceCombinations, int[] committedTracks) {
-        int max_matches = 0; 
+        int maxMatches = 0; 
         int result[] = { -1, -1};
 
         for (int combination = 0; combination < 3; combination++) {
             int matches = numberOfMatches(diceCombinations[combination], committedTracks);
-            if (matches > max_matches) {
+            if (matches > maxMatches) {
                 // NOTE: These could be written with fewer lines of code, but would make code harder to understand.
-                max_matches = matches;
+                maxMatches = matches;
                 if (matches == 1) {
                     result[0] = combination;
                 }
@@ -80,7 +80,7 @@ public class simulateCantStop {
                     result[0] = combination;
                     result[1] = combination;
                 }
-            /* TODO: Randomize choice with equal number of matches (matches == max_matches).
+            /* TODO: Randomize choice with equal number of matches (matches == maxMatches).
             else if {
             }
             */
@@ -100,9 +100,9 @@ public class simulateCantStop {
       */
     private static int getIndexOfCommitedTrack(int combinedDiceValue, int[] committedTracks) {
 
-        for (int track_index = 0; track_index < 3; track_index++) {
-            if (committedTracks[track_index] == combinedDiceValue) {
-                return track_index;
+        for (int trackIndex = 0; trackIndex < 3; trackIndex++) {
+            if (committedTracks[trackIndex] == combinedDiceValue) {
+                return trackIndex;
             }
         }
         
@@ -131,7 +131,7 @@ public class simulateCantStop {
 
 
     /** Simulate committed tracks until no matches are thrown
-      * or one track is finished (if allow_stop_by_track_end == TRUE).
+      * or one track is finished (if ALLOW_STOP_BY_TRACK_END == TRUE).
       * @param committedTracks[3]: unique values between 2-12 signifying chosen tracks to advance.
       * @return simulationRoundResults
       */
@@ -142,9 +142,9 @@ public class simulateCantStop {
         
         // Main loop. Thow dice until you go bust. 
         // NOTE: 1000 repeats should never happen. Upper limit prevents infinite loops.
-        final int max_rounds = 1000;
+        final int MAX_ROUNDS = 1000;
 
-        for (round = 0; round < max_rounds; round++) {
+        for (round = 0; round < MAX_ROUNDS; round++) {
 
             int[][] diceCombinations = getGiceCombinations();
 
@@ -164,7 +164,7 @@ public class simulateCantStop {
                 int advanceIndex1 = getIndexOfCommitedTrack(committedTracks[tracksToAdvance[0]], committedTracks);
                 stepsTaken[advanceIndex1] += 1;
 
-                if (allow_stop_by_track_end) {
+                if (ALLOW_STOP_BY_TRACK_END) {
 
                     if ( checkIfAnyTrackIsFinished(committedTracks, stepsTaken) ) {
                         // TODO: Move to method that packs the results
@@ -184,7 +184,7 @@ public class simulateCantStop {
                 stepsTaken[advanceIndex1] += 1;
                 stepsTaken[advanceIndex2] += 1;
 
-                if (allow_stop_by_track_end) {
+                if (ALLOW_STOP_BY_TRACK_END) {
                     if ( checkIfAnyTrackIsFinished(committedTracks, stepsTaken) ) {
                         // Move to method that packs the results
                         trackAdvancements advancementResults = new trackAdvancements(stepsTaken, committedTracks);
@@ -206,7 +206,7 @@ public class simulateCantStop {
         trackAdvancements advancementResults = new trackAdvancements(stepsTaken, committedTracks);
         simulationRoundResults results = new simulationRoundResults(advancementResults, round);
 
-        System.err.println("Error. Ran for " + max_rounds + " repeats. This should not happen.");
+        System.err.println("Error. Ran for " + MAX_ROUNDS + " repeats. This should not happen.");
         System.exit(35);
 
         return results;
@@ -233,9 +233,9 @@ public class simulateCantStop {
                     simulationRoundResults[] resultsForCurrentTracks = new simulationRoundResults[REPEATS]; 
 
                     for (int round = 0; round < REPEATS; round++) {
-                        int[] used_tracks = { track1, track2, track3 };
-                        // int[] used_tracks = { 12 , 6, 7 };
-                        simulationRoundResults simulationResult = simulateFixedTracksUntilBust(used_tracks);
+                        int[] usedTracks = { track1, track2, track3 };
+                        // int[] usedTracks = { 12 , 6, 7 };
+                        simulationRoundResults simulationResult = simulateFixedTracksUntilBust(usedTracks);
                         /* TODO: It is possible to overshoot a track by 1 step, if both dice match. 
                          *       Compare results to track lengths and fix if necessary. 
                          */
@@ -244,20 +244,20 @@ public class simulateCantStop {
 
                     }
 
-                    int total_steps[] = { 0, 0, 0 };
+                    int totalSteps[] = { 0, 0, 0 };
                     
                     for (int round = 0; round < REPEATS; round++) {
-                        total_steps[0] += resultsForCurrentTracks[round].getSteps(0);
-                        total_steps[1] += resultsForCurrentTracks[round].getSteps(1);
-                        total_steps[2] += resultsForCurrentTracks[round].getSteps(2);                       
+                        totalSteps[0] += resultsForCurrentTracks[round].getSteps(0);
+                        totalSteps[1] += resultsForCurrentTracks[round].getSteps(1);
+                        totalSteps[2] += resultsForCurrentTracks[round].getSteps(2);                       
                     }
 
                     for (int i = 0; i < 3; i++) {
-                        System.out.print("Steps for " + resultsForCurrentTracks[0].getTargetNumber(i) + ": " + total_steps[i] + " in " + REPEATS +" repeats. "); 
-                        double average_steps_per_around = (float)(total_steps[i]/REPEATS);
-                        System.out.printf("Avg. %.1f steps/round. ", average_steps_per_around);
-                        double steps_as_percentage_of_whole_track = average_steps_per_around / (TRACK_LENGTHS[resultsForCurrentTracks[0].getTargetNumber(i)]) * 100;
-                        System.out.printf("(%.1f %% of track)%n", steps_as_percentage_of_whole_track);
+                        System.out.print("Steps for " + resultsForCurrentTracks[0].getTargetNumber(i) + ": " + totalSteps[i] + " in " + REPEATS +" repeats. "); 
+                        double averageStepsPerRound = (float)(totalSteps[i]/REPEATS);
+                        System.out.printf("Avg. %.1f steps/round. ", averageStepsPerRound);
+                        double stepsAsPercentageOfWholeTrack = averageStepsPerRound / (TRACK_LENGTHS[resultsForCurrentTracks[0].getTargetNumber(i)]) * 100;
+                        System.out.printf("(%.1f %% of track)%n", stepsAsPercentageOfWholeTrack);
                     }
 
                 }
