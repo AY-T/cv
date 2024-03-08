@@ -9,9 +9,9 @@ public class simulationRoundResults extends trackAdvancements {
 
     }
 
-    simulationRoundResults(trackAdvancements given_trackAdvancements, int number_of_turns) {
-        this.turns = number_of_turns;
-        this.steps_taken = given_trackAdvancements.getAllSteps();
-        this.target_number = given_trackAdvancements.getAllTargetNumbers();
+    simulationRoundResults(trackAdvancements givenTrackAdvancements, int numberOfTurns) {
+        this.turns = numberOfTurns;
+        this.stepsTaken = givenTrackAdvancements.getAllSteps();
+        this.targetNumber = givenTrackAdvancements.getAllTargetNumbers();
     }
 }
