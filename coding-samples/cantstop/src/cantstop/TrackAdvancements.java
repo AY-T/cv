@@ -25,7 +25,16 @@ public class TrackAdvancements {
         if (index >= 0 && index <= 2) {
             return target_number[index];
         }
-        
+
+    public int[] getAllSteps() {
+        return steps_taken;
+    }
+
+    public int getSteps(int index) {
+        if (index >= 0 && index <= 2) {
+            return steps_taken[index];
+        }
+                
         System.err.printf("Critical error. Index for getTargetNumber not between [0, 2]");
         System.exit(35);
         

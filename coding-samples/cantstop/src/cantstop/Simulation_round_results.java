@@ -11,7 +11,7 @@ public class Simulation_round_results extends TrackAdvancements {
 
     Simulation_round_results(TrackAdvancements given_trackAdvancements, int number_of_turns) {
         this.turns = number_of_turns;
-        this.steps_taken = given_trackAdvancements.steps_taken;
+        this.steps_taken = given_trackAdvancements.getAllSteps();
         this.target_number = given_trackAdvancements.getAllTargetNumbers();
     }
 }
