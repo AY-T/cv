@@ -225,6 +225,7 @@ public class simulateCantStop {
         simulationRoundResults[][][] combined_results;
 
         // Go though all dice combinations. Only one of each combination should be possible. (i.e. 2/3/4 to 10/11/12)
+        // TODO: Temporarely limited to dice combination { 6, 7, 8 }.
         for (int track1 = 6; track1 <= 6; track1++ ) {
             for (int track2 = track1 + 1; track2 <= 7; track2++ ) {
                 for (int track3 = track2 + 1; track3 <= 8; track3++ ) {
