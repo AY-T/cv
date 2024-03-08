@@ -5,7 +5,7 @@ import java.util.Random;
 /* 
  * Class for simulating board game "Can't Stop" for determening optimal strategy.
  */
-public class SimulateCantStop {
+public class simulateCantStop {
     // Track length for dice total #             NA  NA   2   3   4   5   6   7   8   9  10  11  12
     private static final int track_lengths[] = {  0,  0,  3,  5,  7,  9, 11, 13, 11,  9,  7,  5,  3 };
 
@@ -43,7 +43,7 @@ public class SimulateCantStop {
       * @param committedTracks[3]: unique values between 2-12 signifying chosen tracks to advance.
       * @return int (1 or 2)
       */
-    private static int number_of_matches(int[] dice_combination_pair, int[] committedTracks) {
+    private static int numberOfMatches(int[] dice_combination_pair, int[] committedTracks) {
         int matches = 0;
         for (int pair = 0; pair < 2; pair++) {
             for (int track = 0; track < 3; track++) {
@@ -69,7 +69,7 @@ public class SimulateCantStop {
         int result[] = { -1, -1};
 
         for (int combination = 0; combination < 3; combination++) {
-            int matches = number_of_matches(diceCombinations[combination], committedTracks);
+            int matches = numberOfMatches(diceCombinations[combination], committedTracks);
             if (matches > max_matches) {
                 // NOTE: These could be written with fewer lines of code, but would make code harder to understand.
                 max_matches = matches;
@@ -98,7 +98,7 @@ public class SimulateCantStop {
       * @param committedTracks[3]: unique values between 2-12 signifying chosen tracks to advance.
       * @return Matching track index (0-2) or error (-1).
       */
-    private static int get_index_of_commited_track(int combined_dice_value, int[] committedTracks) {
+    private static int getIndexOfCommitedTrack(int combined_dice_value, int[] committedTracks) {
 
         for (int track_index = 0; track_index < 3; track_index++) {
             if (committedTracks[track_index] == combined_dice_value) {
@@ -119,7 +119,7 @@ public class SimulateCantStop {
       * @param steps_taken[3]: steps taken in above tracks, with shared indexes.
       * @return bool
       */
-    private static boolean check_if_any_track_is_finished(int[] committedTracks, int[] steps_taken) {
+    private static boolean checkIfAnyTrackIsFinished(int[] committedTracks, int[] steps_taken) {
         for (int i = 0; i < 3; i++) {
             if (steps_taken[i] >= track_lengths[committedTracks[i]]) {
                 return true;
@@ -133,9 +133,9 @@ public class SimulateCantStop {
     /** Simulate committed tracks until no matches are thrown
       * or one track is finished (if allow_stop_by_track_end == TRUE).
       * @param committedTracks[3]: unique values between 2-12 signifying chosen tracks to advance.
-      * @return Simulation_round_results
+      * @return simulationRoundResults
       */
-    private static Simulation_round_results simulate_fixed_tracks_until_bust(int[] committedTracks) { 
+    private static simulationRoundResults simulateFixedTracksUntilBust(int[] committedTracks) { 
 
         int round = 0;
         int[] steps_taken = { 0, 0, 0 };
@@ -153,23 +153,23 @@ public class SimulateCantStop {
             // Case: No steps can be taken. Go bust and return results.
             if (tracks_to_advance[0] == -1) {
 
-                TrackAdvancements advancement_results = new TrackAdvancements(steps_taken, committedTracks);
+                trackAdvancements advancement_results = new trackAdvancements(steps_taken, committedTracks);
                 
-                Simulation_round_results results = new Simulation_round_results(advancement_results, round);
+                simulationRoundResults results = new simulationRoundResults(advancement_results, round);
 
                 return results;
             }
             // Case: A maximum of one step can be taken. (Choice was random if several)
             else if ((tracks_to_advance[0] != -1) && (tracks_to_advance[1] == -1)) {
-                int advance_index1 = get_index_of_commited_track(committedTracks[tracks_to_advance[0]], committedTracks);
+                int advance_index1 = getIndexOfCommitedTrack(committedTracks[tracks_to_advance[0]], committedTracks);
                 steps_taken[advance_index1] += 1;
 
                 if (allow_stop_by_track_end) {
 
-                    if ( check_if_any_track_is_finished(committedTracks, steps_taken) ) {
-                        // Move to method that packs the results
-                        TrackAdvancements advancement_results = new TrackAdvancements(steps_taken, committedTracks);
-                        Simulation_round_results results = new Simulation_round_results(advancement_results, round);
+                    if ( checkIfAnyTrackIsFinished(committedTracks, steps_taken) ) {
+                        // TODO: Move to method that packs the results
+                        trackAdvancements advancement_results = new trackAdvancements(steps_taken, committedTracks);
+                        simulationRoundResults results = new simulationRoundResults(advancement_results, round);
                     
                         return results;
                     }
@@ -178,17 +178,17 @@ public class SimulateCantStop {
             }
             // Case: Two steps can be taken.
             else if ((tracks_to_advance[0] != -1) && (tracks_to_advance[1] != -1)) {
-                int advance_index1 = get_index_of_commited_track(committedTracks[tracks_to_advance[0]], committedTracks);
-                int advance_index2 = get_index_of_commited_track(committedTracks[tracks_to_advance[0]], committedTracks);
+                int advance_index1 = getIndexOfCommitedTrack(committedTracks[tracks_to_advance[0]], committedTracks);
+                int advance_index2 = getIndexOfCommitedTrack(committedTracks[tracks_to_advance[0]], committedTracks);
                 
                 steps_taken[advance_index1] += 1;
                 steps_taken[advance_index2] += 1;
 
                 if (allow_stop_by_track_end) {
-                    if ( check_if_any_track_is_finished(committedTracks, steps_taken) ) {
+                    if ( checkIfAnyTrackIsFinished(committedTracks, steps_taken) ) {
                         // Move to method that packs the results
-                        TrackAdvancements advancement_results = new TrackAdvancements(steps_taken, committedTracks);
-                        Simulation_round_results results = new Simulation_round_results(advancement_results, round);
+                        trackAdvancements advancement_results = new trackAdvancements(steps_taken, committedTracks);
+                        simulationRoundResults results = new simulationRoundResults(advancement_results, round);
 
                         return results;
                     }
@@ -203,8 +203,8 @@ public class SimulateCantStop {
         }
 
         // Move to method that packs the results
-        TrackAdvancements advancement_results = new TrackAdvancements(steps_taken, committedTracks);
-        Simulation_round_results results = new Simulation_round_results(advancement_results, round);
+        trackAdvancements advancement_results = new trackAdvancements(steps_taken, committedTracks);
+        simulationRoundResults results = new simulationRoundResults(advancement_results, round);
 
         System.err.println("Error. Ran for " + max_rounds + " repeats. This should not happen.");
         System.exit(35);
@@ -215,26 +215,26 @@ public class SimulateCantStop {
 
     /** Simulated playing of board game "Can't stop" with preselected tracks. Main method for class.
       */
-    public static void simulate_tracks() {
+    public static void simulateTracks() {
         
         final int repeats = 5;
 
         // Array which will include all results for simulations of different dice combinations.
         // Will be used to mine for information. E.g. if I want to advance sum "3", which
         // other two dice accompanying it will produce the most advances for "3"?
-        Simulation_round_results[][][] combined_results;
+        simulationRoundResults[][][] combined_results;
 
         // Go though all dice combinations. Only one of each combination should be possible. (i.e. 2/3/4 to 10/11/12)
         for (int track1 = 6; track1 <= 6; track1++ ) {
             for (int track2 = track1 + 1; track2 <= 7; track2++ ) {
                 for (int track3 = track2 + 1; track3 <= 8; track3++ ) {
 
-                    Simulation_round_results[] results_for_current_tracks = new Simulation_round_results[repeats]; 
+                    simulationRoundResults[] results_for_current_tracks = new simulationRoundResults[repeats]; 
 
                     for (int round = 0; round < repeats; round++) {
                         int[] used_tracks = { track1, track2, track3 };
                         // int[] used_tracks = { 12 , 6, 7 };
-                        Simulation_round_results simulation_result = simulate_fixed_tracks_until_bust(used_tracks);
+                        simulationRoundResults simulation_result = simulateFixedTracksUntilBust(used_tracks);
                         /* TODO: It is possible to overshoot a track by 1 step, if both dice match. 
                          *       Compare results to track lengths and fix if necessary. 
                          */
@@ -262,5 +262,5 @@ public class SimulateCantStop {
                 }
             }
         }
-    } // End of simulate_tracks()
+    } // End of simulateTracks()
 } // End of class SimulateCantStop
