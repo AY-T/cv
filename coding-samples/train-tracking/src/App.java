@@ -53,7 +53,7 @@ public class App {
         System.out.println(lastDateTime);
         System.out.println("======================");
 */
-        DrawTrainGraph window = new DrawTrainGraph(firstDateTime, lastDateTime, stationInfo);
+        DrawTrainWindow window = new DrawTrainWindow(firstDateTime, lastDateTime, stationInfo);
         window.draw(trains);
 
 /*         for (int i = 0; i < stationInfo.size; i++) {

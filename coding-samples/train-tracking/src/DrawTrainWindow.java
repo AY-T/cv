@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /* 
  * Class for ...
  */
-public class DrawTrainGraph {
+public class DrawTrainWindow {
     private final int WINDOWWIDTH;
     private final int WINDOWHEIGTH;
     private final int GRAPHWIDTH;
@@ -23,7 +23,7 @@ public class DrawTrainGraph {
     private StationInformation stationInfo;
 
 
-    public DrawTrainGraph(LocalDateTime firstDateTime, LocalDateTime lastDateTime, StationInformation stationInfo) {
+    public DrawTrainWindow(LocalDateTime firstDateTime, LocalDateTime lastDateTime, StationInformation stationInfo) {
         this.WINDOWWIDTH = 1700;
         this.WINDOWHEIGTH = 1000;
         this.GRAPHWIDTH = 1400;
@@ -41,6 +41,8 @@ public class DrawTrainGraph {
      */
     public void draw(ArrayList<TrainInformation> trains) {
         Random rand = new Random();
+
+        // TODO: Add a button to refresh view. Either for new train situation of bad random colors drawing trains.
 
         // Left edge of the graph, expressed in minutes from day start
         int zeroPoint = (60 * this.firstDateTime.getHour()) + this.firstDateTime.getMinute();
