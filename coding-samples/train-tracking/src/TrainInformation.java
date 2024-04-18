@@ -1,9 +1,13 @@
 import java.awt.Color;
 import java.util.ArrayList;
 
-// Class for storing needed train information.
+
+/* 
+ * Class for storing needed train information.
+ */
 public class TrainInformation {
-    public ArrayList<TimeTableRow> timeTableRows;
+    // TODO: Change timeTableRows to private, if easily doable.
+    protected ArrayList<TimeTableRow> timeTableRows;
     private String trainNumber;
     public Color trainColor;
 

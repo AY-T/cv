@@ -2,13 +2,16 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.time.LocalDateTime;
 
-
+/* 
+ * Class for ...
+ */
 public class DrawTrainGraph {
     private final int WINDOWWIDTH;
     private final int WINDOWHEIGTH;
@@ -31,8 +34,13 @@ public class DrawTrainGraph {
         this.stationInfo = stationInfo;
     }
     
+    /** 
+     * 
+     * @param 
+     * @return void
+     */
     public void draw(ArrayList<TrainInformation> trains) {
-
+        Random rand = new Random();
 
         // Left edge of the graph, expressed in minutes from day start
         int zeroPoint = (60 * this.firstDateTime.getHour()) + this.firstDateTime.getMinute();
@@ -47,7 +55,7 @@ public class DrawTrainGraph {
         windowFrame.setResizable(false);
         windowFrame.setBackground(Color.LIGHT_GRAY);
         windowFrame.setLayout(null);
-        windowFrame.setTitle("Trains between " + stationInfo.getStationName(0) + " and " + stationInfo.getStationName(stationInfo.size-1));
+        windowFrame.setTitle("Trains between " + stationInfo.getStationName(0) + " and " + stationInfo.getStationName(stationInfo.size()-1));
 
         // Panel for text at the top.
         JPanel topPanel = new JPanel();
@@ -55,7 +63,7 @@ public class DrawTrainGraph {
         topPanel.setBackground(Color.LIGHT_GRAY);
         windowFrame.add(topPanel);
 
-        // Panel for the top left corner. Purely of aethetics.
+        // Panel for the top left corner. Mainly aesthetics.
         JPanel cornerPanel = new JPanel();
         cornerPanel.setBounds(10, 0, 90, PANELGAP);
         cornerPanel.setBackground(Color.LIGHT_GRAY);
@@ -69,28 +77,19 @@ public class DrawTrainGraph {
         // Attempt at using several left JPanels
         ArrayList<JPanel> leftPanels = new ArrayList<JPanel>();
         int previousY = 50;
-        for (int i = 0; i < stationInfo.size; i++) {
+        for (int i = 0; i < stationInfo.size(); i++) {
             leftPanels.add(new JPanel());
             JPanel currentPanel = leftPanels.get(i);
 
             
-            // JPanel leftPanel = new JPanel();
-            // currentPanel.setBounds(10, previousY, 90, GRAPHHEIGHT / stationInfo.size);
             int newY;
-            // int nextY;
-            // newY = GRAPHHEIGHT / stationInfo.size;
             newY = (int)stationInfo.getRelativePositionLabels(i);
 
-            //currentPanel.setBounds(10, previousY, 90, newY);
             currentPanel.setBounds(10, (newY+50), 90, 100);
             currentPanel.setBackground(Color.LIGHT_GRAY);
-            // Debugging only. Add random color to panel to make it easier to distinguish.
-            /*
-            int red   = (int)(255 * rand.nextFloat());
-            int green = (int)(255 * rand.nextFloat());
-            int blue  = (int)(255 * rand.nextFloat());
-            currentPanel.setBackground(new Color(red, green, blue));
-             */
+            
+            // Add random color to panel to make it easier to distinguish. Debugging only. 
+            // currentPanel.setBackground(new Color((int)(255 * rand.nextFloat()), (int)(255 * rand.nextFloat()), (int)(255 * rand.nextFloat())));
             
             // currentPanel.setLayout(null);
             
@@ -127,7 +126,5 @@ public class DrawTrainGraph {
 
         windowFrame.add(leftPanel);
         windowFrame.setVisible(true);
-
     }
-
 }

@@ -3,7 +3,16 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 
+/* 
+ * Class for ...
+ */
 public class Timestamps {
+    
+    /** 
+     * 
+     * @param 
+     * @return void
+     */
     public static LocalDateTime getEarliest(ArrayList<TrainInformation> trains) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         
@@ -27,6 +36,11 @@ public class Timestamps {
         return firstDateTime;
     }
 
+    /** 
+     * 
+     * @param 
+     * @return void
+     */
     public static LocalDateTime getLatest(ArrayList<TrainInformation> trains) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         

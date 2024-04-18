@@ -1,4 +1,7 @@
- // Change StationInformation to singular and use as Arraylist?
+/* 
+ * Class for ...
+ */
+// Change StationInformation to singular and use as Arraylist?
 public class StationInformation {
     // Use API for some or all station information? 
     // https://rata.digitraffic.fi/swagger/#/metadata/getStations
@@ -12,9 +15,10 @@ public class StationInformation {
     private double[] relativePositionLabels = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private String firstRouteStation = "LPV";
     private String lastRouteStation = "HKI";
-    public final int size = stationId.length;
+    // public final int size = stationId.length;
 
 /*
+    // Alternative set of station and their distances. Comment out previous lines if wanting to try.
     private String[] stationId = { "ÄKI", "SUO", "LAU", "VRI", "JY" };
     private String[] stationName = { "Äänekoski", "Suolahti", "Laukaa", "Vihtavuori", "Jyväskylä"};
     // NOTE: Station with largest distance needs to be in lowest index. Need to change code if otherwise.
@@ -30,15 +34,19 @@ public class StationInformation {
         for (int i = 0; i < distance.length; i++) {
 
             // Tested and works: Linear relative distances
-            relativePosition[i] = (((double) i / (double) (distance.length-1)) * 900.0);
+            // relativePosition[i] = (((double) i / (double) (distance.length-1)) * 900.0);
             relativePositionLabels[i] = (((double) i / (double) (distance.length)) * 900.0);
 
             
-            // TODO: Distances using actual distances
+            // Distances using actual distances (currently graphs only, not labels).
             double largest = distance[0];
-            double smallest = distance[this.size-1];
+            double smallest = distance[this.size()-1];
             relativePosition[i] = (distance[i] - smallest) / (largest - smallest) * 900.0;
         }
+    }
+
+    public int size() {
+        return distance.length;
     }
 
     public double getRelativePosition(int index) {
@@ -69,8 +77,13 @@ public class StationInformation {
         return distance[index];
     }
 
+    /** 
+     * 
+     * @param 
+     * @return void
+     */
     public int getIndexForStationId(String searchId) {
-        for (int i = 0; i < this.size; i++) {
+        for (int i = 0; i < this.size(); i++) {
             if (this.stationId[i].equals(searchId)) {
                 return i;
             }

@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
+/* 
+ * Class for ...
+ */
 public class TrainGraphPanel extends JPanel {
     private int width;
     private int heigth;
@@ -31,23 +34,27 @@ public class TrainGraphPanel extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.setVisible(true);
     }
-
+    /** 
+     * 
+     * Automatically called by Java.
+     * @param 
+     * @return void
+     */
     public void paint(Graphics g) {
         super.paint(g);
 
         // TODO: Change trainNumber to trainName, but cannot find train name info on given API.
-        // TODO: Add vertical lines at position of stations?
-        // TODO: Fix y-positioning using relative station distances.
+        // TODO: Fix y-positioning using relative station distances. Add small vertical lines at position of stations?
         // TODO: Lines to objects to attach train number with hoves (is there need if names not available?).
-        // TODO: Use actualTime.
+        // TODO: Actual times currently combined with scheduled times. Separate to different lines? How to keep end result visually clear?
 
         Graphics2D g2d = (Graphics2D) g;
 
-        // Draw current time as a vertical line.
+        // Draw current time as a thick green vertical line.
         LocalDateTime timeNow = LocalDateTime.now();
         int nowSeconds = 60 * timeNow.getHour() + timeNow.getMinute();
         int xNow = (int) ((((float)nowSeconds - (float)zeroPoint) / ((float)endPoint - (float)zeroPoint)) * 1400.0f);
-        g2d.setStroke(new BasicStroke(4));
+        g2d.setStroke(new BasicStroke(5));
         g2d.setPaint(new Color(0,255,0));
         g2d.drawLine(xNow, 0, xNow, this.heigth);
 
@@ -59,7 +66,6 @@ public class TrainGraphPanel extends JPanel {
         int outBounds = 0;
         // Go though all scheduled trains and draw train graphs.
         for (TrainInformation train : trains) {
-            // System.out.println("Now drawing train " + trainIndex)
             g2d.setPaint(train.trainColor);
             g2d.drawString(train.getTrainNumber(), 5, 15*(trainIndex+1));
 
@@ -72,24 +78,20 @@ public class TrainGraphPanel extends JPanel {
                 int xCoordinate = 0;
                 int yCoordinate = 0;
 
-                int scheduledMinutes = 60 * timeTableRow.getScheduledTime().getHour() + timeTableRow.getScheduledTime().getMinute();
+                int totalMinutesToUse;
 
-                xCoordinate = (int) ((((float)scheduledMinutes - (float)zeroPoint) / ((float)endPoint - (float)zeroPoint)) * 1400.0f);
+                if (timeTableRow.getActualTime() != null ) {
+                    totalMinutesToUse = 60 * timeTableRow.getActualTime().getHour() + timeTableRow.getActualTime().getMinute();
+                } else {
+                    totalMinutesToUse = 60 * timeTableRow.getScheduledTime().getHour() + timeTableRow.getScheduledTime().getMinute();
+                }
 
-                // System.out.println(xCoordinate + " (" + scheduledMinutes + " - " + zeroPoint + " / (" + endPoint + " - " + zeroPoint + ")");
-
-                // xCoordinate = xCoordinate + 2400;
-                // xCoordinate = (int) (xCoordinate * 0.015);
-
+                xCoordinate = (int) ((((float)totalMinutesToUse - (float)zeroPoint) / ((float)endPoint - (float)zeroPoint)) * 1400.0f);
 
                 if (xCoordinate > 1400) {
-                    // System.out.println("xCoordinate out of bounds (high)");
                     outBounds++;
-
-
                 }
                 if (xCoordinate < 0) {
-                    // System.out.println("xCoordinate out of bounds (low)");
                     outBounds++;
                 }
                
@@ -97,24 +99,20 @@ public class TrainGraphPanel extends JPanel {
                 // NOTE: Current implementation positions stations evenly. Changed in class StationInformation.
                 int stationIndex = stationInfo.getIndexForStationId(timeTableRow.getStationShortCode().toUpperCase());
                 yCoordinate = (int)  (900 - stationInfo.getRelativePosition(stationIndex));
-                // System.out.println(yCoordinate + ", index: " + stationIndex);
 
                 // No line to draw on the first row of each time table (two points needed for a line).
                 if (prevX == -1 || prevY == -1 ) {
                     prevX = xCoordinate;
-                    prevY = yCoordinate;
-
-                    /*
-                    // TODO: Train labels not working. Need to fix.
-                    JLabel trainName = new JLabel();
-                    // System.out.println("Train name starting: " + train.getTrainName());
-                    trainName.setText(train.getTrainName());
-                    this.add(trainName);
-                     */
-
-                    
+                    prevY = yCoordinate;                   
                 } else {
-                    g2d.drawLine(prevX, prevY, xCoordinate, yCoordinate);
+                    // Use a broader brush if drawaing an actual timetable, instead of a scheduled timetable.
+                    if (timeTableRow.getActualTime() != null ) {
+                        g2d.setStroke(new BasicStroke(4));
+                        g2d.drawLine(prevX, prevY, xCoordinate, yCoordinate);
+                    } else {
+                        g2d.setStroke(new BasicStroke(2));
+                        g2d.drawLine(prevX, prevY, xCoordinate, yCoordinate);
+                    }
                 }
 
                 prevX = xCoordinate;
