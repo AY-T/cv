@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 
 /* 
- * Class for ...
+ * Class for finding the earliest and latest timestamp for a group of TrainInformation time tables.
  */
 public class Timestamps {
     
     /** 
-     * 
-     * @param 
-     * @return void
+     * Returns earliest timestarmp for given train schedules.
+     * @param ArrayList<TrainInformation> trains: List of trains and train schedules.
+     * @return LocalDateTime: earliest found timestamp on in all train schedules.
      */
     public static LocalDateTime getEarliest(ArrayList<TrainInformation> trains) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -37,9 +37,9 @@ public class Timestamps {
     }
 
     /** 
-     * 
-     * @param 
-     * @return void
+     * Returns latest (last) timestarmp for given train schedules.
+     * @param ArrayList<TrainInformation> trains: List of trains and train schedules.
+     * @return LocalDateTime: latest (last) found timestamp on in all train schedules.
      */
     public static LocalDateTime getLatest(ArrayList<TrainInformation> trains) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");

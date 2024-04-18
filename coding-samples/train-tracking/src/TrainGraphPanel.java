@@ -1,4 +1,3 @@
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,7 +10,7 @@ import javax.swing.JPanel;
 
 
 /* 
- * Class for ...
+ * Class for drawing the main train graph of program. Other parts of GUI are handled by class DrawTrainWindow.
  */
 public class TrainGraphPanel extends JPanel {
     private int width;
@@ -35,9 +34,7 @@ public class TrainGraphPanel extends JPanel {
         this.setVisible(true);
     }
     /** 
-     * 
-     * Automatically called by Java.
-     * @param 
+     * Automatically called by Java. Does main work for class TrainGraphPanel.
      * @return void
      */
     public void paint(Graphics g) {
@@ -66,7 +63,7 @@ public class TrainGraphPanel extends JPanel {
         int outBounds = 0;
         // Go though all scheduled trains and draw train graphs.
         for (TrainInformation train : trains) {
-            g2d.setPaint(train.trainColor);
+            g2d.setPaint(train.getTrainColor());
             g2d.drawString(train.getTrainNumber(), 5, 15*(trainIndex+1));
 
 

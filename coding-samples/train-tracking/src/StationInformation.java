@@ -1,9 +1,9 @@
 /* 
- * Class for ...
+ * Class for storing information regarding train stations, and their relative distances.
  */
-// Change StationInformation to singular and use as Arraylist?
 public class StationInformation {
-    // Use API for some or all station information? 
+    // TODO: Change StationInformation to singular and use as Arraylist?
+    // TODO: Use API for some or all station information? 
     // https://rata.digitraffic.fi/swagger/#/metadata/getStations
 
     // LPV-HKI
@@ -15,7 +15,6 @@ public class StationInformation {
     private double[] relativePositionLabels = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private String firstRouteStation = "LPV";
     private String lastRouteStation = "HKI";
-    // public final int size = stationId.length;
 
 /*
     // Alternative set of station and their distances. Comment out previous lines if wanting to try.
@@ -26,8 +25,8 @@ public class StationInformation {
     private double[] relativePosition = { 0, 0, 0, 0, 0 };
     private String firstRouteStation = "JY";
     private String lastRouteStation = "%C3%84KI";
-    public final int size = stationId.length;
  */
+
     StationInformation() {
         // Calculate the relative position of each station based on distance for later use.
         // NOTE: Distances in this.distance needs to be in decending order!
@@ -78,9 +77,9 @@ public class StationInformation {
     }
 
     /** 
-     * 
-     * @param 
-     * @return void
+     * Returns the index of a station being searched for.
+     * @param String searchId: Two or three letter short code for station who's index is needed.
+     * @return Index of matching station. Return -1 if not found.
      */
     public int getIndexForStationId(String searchId) {
         for (int i = 0; i < this.size(); i++) {

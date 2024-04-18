@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import javax.swing.JPanel;
 import java.time.LocalDateTime;
 
 /* 
- * Class for ...
+ * Class for drawing the application window. Draws everything except the train graph itself.
  */
 public class DrawTrainWindow {
     private final int WINDOWWIDTH;
@@ -22,8 +21,15 @@ public class DrawTrainWindow {
     private LocalDateTime lastDateTime;
     private StationInformation stationInfo;
 
-
+    /** 
+     * Constructor.
+     * @param LocalDateTime firstDateTime: Leftward time boundary for train graph (x-axis of graph).
+     * @param LocalDateTime lastDateTime: Rightward time boundary for train graph (x-axis of graph).
+     * @param StationInformation stationInfo: Information on train station and their relative distances (y-axis of graph).
+     * @return void
+     */
     public DrawTrainWindow(LocalDateTime firstDateTime, LocalDateTime lastDateTime, StationInformation stationInfo) {
+        // TODO: Move all constansts to a single class, which is passed on to needing classes.
         this.WINDOWWIDTH = 1700;
         this.WINDOWHEIGTH = 1000;
         this.GRAPHWIDTH = 1400;
@@ -35,8 +41,8 @@ public class DrawTrainWindow {
     }
     
     /** 
-     * 
-     * @param 
+     * Main method for class. Does everything, except drawing the train graph itself which is done by TrainGraphPanel class.
+     * @param ArrayList<TrainInformation> trains: Information on train schedules.
      * @return void
      */
     public void draw(ArrayList<TrainInformation> trains) {
@@ -51,7 +57,7 @@ public class DrawTrainWindow {
         int endPoint = (60 * this.lastDateTime.getHour()) + this.lastDateTime.getMinute();
 
         JFrame windowFrame = new JFrame();
-        // NOTE: EXIT_ON_CLOSE might break some application deploiments.
+        // NOTE: EXIT_ON_CLOSE might break some application deployments.
         windowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         windowFrame.setSize(WINDOWWIDTH,WINDOWHEIGTH);
         windowFrame.setResizable(false);
@@ -87,14 +93,15 @@ public class DrawTrainWindow {
             int newY;
             newY = (int)stationInfo.getRelativePositionLabels(i);
 
+            // currentPanel.setLayout(null);
             currentPanel.setBounds(10, (newY+50), 90, 100);
             currentPanel.setBackground(Color.LIGHT_GRAY);
             
-            // Add random color to panel to make it easier to distinguish. Debugging only. 
+        
+            // Add random color to panel to make it easier to distinguish. 
+            // NOTE: Enable for debugging only. 
             // currentPanel.setBackground(new Color((int)(255 * rand.nextFloat()), (int)(255 * rand.nextFloat()), (int)(255 * rand.nextFloat())));
-            
-            // currentPanel.setLayout(null);
-            
+                        
             JLabel newLabel = new JLabel();
             newLabel.setFont(new Font("Serif", Font.PLAIN, 10));
             newLabel.setText(stationInfo.getStationName(i));
@@ -115,9 +122,7 @@ public class DrawTrainWindow {
             
             windowFrame.add(currentPanel);
         }
-        
         // End of left JPanel
-
 
         TrainGraphPanel graphPanel = new TrainGraphPanel(windowFrame, trains, zeroPoint, endPoint, this.stationInfo, GRAPHWIDTH, GRAPHHEIGHT);
         graphPanel.setBounds(100, 50, GRAPHWIDTH, GRAPHHEIGHT);

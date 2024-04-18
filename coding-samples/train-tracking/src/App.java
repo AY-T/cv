@@ -2,13 +2,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 /* 
- * Class for ...
+ * Class for starting the application.
  */
 public class App {
-
-    // TODO: Deploy somewhere? 
-
-    // TODO: Make as live train following instead of static picture of when run.
+    /** 
+     * Main method for class. Does everything. Setups everything needed and passes work to DrawTrainWindow.draw().
+     * @return void
+     */    
     public static void run() {
         // NOTE: Used route and station hard coded into StationInformation.
         StationInformation stationInfo = new StationInformation();
@@ -26,40 +26,11 @@ public class App {
 
         // System.out.println("Number of valid trains: " + trains.size());
 
-/*         for (TrainInformation train : trains) {
-            System.out.print("Train name: ");
-            System.out.println(train.getTrainName());
-            for (TimeTableRow timeTableRow : train.timeTableRows) {
-                System.out.print(timeTableRow.getStationShortCode());
-                System.out.print(": ");
-                System.out.print(timeTableRow.getScheduledTime());
-                System.out.println(" (" + timeTableRow.getStopType() + ")");
-                // System.out.println(" (" + timeTableRow.stopType + ")");
-            }
-            System.out.println("======================");
-        }
-*/
-
-
-        // Get lower and upper bounds from all timetables. 
-        // Add/substract some minutes from each to make nicer graph later.
-        // NOTE: Seems this could be done with the API too.
+        // Add or substract some minutes from each to make nicer looking graph later.
         LocalDateTime firstDateTime = Timestamps.getEarliest(trains).minusMinutes(2);
         LocalDateTime lastDateTime = Timestamps.getLatest(trains).plusMinutes(2);
-/*
-        System.out.print("First DateTime: ");
-        System.out.println(firstDateTime);
-        System.out.print("Last DateTime: ");
-        System.out.println(lastDateTime);
-        System.out.println("======================");
-*/
+
         DrawTrainWindow window = new DrawTrainWindow(firstDateTime, lastDateTime, stationInfo);
         window.draw(trains);
-
-/*         for (int i = 0; i < stationInfo.size; i++) {
-            System.out.println(stationInfo.getRelativePosition(i));
-        }
-         */
-        System.out.println("Finished");
     }
 }

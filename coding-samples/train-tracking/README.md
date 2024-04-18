@@ -10,6 +10,7 @@
 * Use "javac -classpath lib\json-simple-1.1.1.jar "
 
 ### Notes and TODOs
+* Train colors are random. It 
 * Code would benefit from refactoring. Ran out of time initially.
 * Graphs (drawn lines) take into account actual station distances. Station labels don't due to trouble positioning them. That means station labels are somewhat off compared to graph lines (e.g. show when draing a horizontal line, indicating waiting at a station).
 * Actual times have been only recently implemented. Currently should draw as a broader line compared to scheduled times, instead of having different graphs.
@@ -20,6 +21,7 @@
 * Labels are slightly out of place. Traingraphs should be pretty accurate.
 * Hasn't been tested if used is outside Finnish timezone. Probably doesn't work.
 * Train schedule seconds are not used for the graph. This is likely not noticeable, but could in theory in some cases cause something like a 1 pixel distortion. Easy to add seconds if needed.
+* Utility functions could and should be moved to their own utility classes/methods (e.g. randomizing a color).
 * For further notes, see source code.
 
 

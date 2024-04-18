@@ -9,7 +9,7 @@ import api.GetInformartionFromApi;
 
 
 /* 
- * Class for ...
+ * Class for gathering/parsing necessary train schedule information to be used by other classes.
  */
 public class TrainSchedulesFromJson {
     private StationInformation stationInfo;
@@ -19,9 +19,10 @@ public class TrainSchedulesFromJson {
     }
 
     /** 
-     * 
-     * @param 
-     * @return void
+     * Gathers/parses necessary train and train schedule information.
+     * @param String station1: Three-letter station code for other end of used train route.
+     * @param String station2: Three-letter station code for other end of used train route.
+     * @return ArrayList<TrainInformation>: gathered train/train schedule information.
      */
     public ArrayList<TrainInformation> run(String station1, String station2) {
 
@@ -47,7 +48,7 @@ public class TrainSchedulesFromJson {
             JSONObject jsontrain = (JSONObject) train;
             String trainNumber = jsontrain.get("trainNumber").toString();
 
-            // New implementation. Potential train candidate to be added.
+            // Potential train candidate to be added. Only added if within given time limit from current time.
             TrainInformation potentialTrain = new TrainInformation();
             potentialTrain.setTrainNumber(trainNumber);
 
@@ -81,36 +82,32 @@ public class TrainSchedulesFromJson {
 
                         TimeTableRow newRow = new TimeTableRow(scheduledTime, actualTime, stationShortCode, stopType);
 
-                        // New implementation: Add to potentialTrain
                         potentialTrain.addToTimeTable(newRow);
 
                         ValidStation = true;
                     }
                 }
-                if (ValidStation == false) {
-                    // System.out.println("Not a valid station: " + stationShortCode);
-                }
 
+                // For debugging only. No valid station identified.        
+                // if (ValidStation == false );
+                // 
+                // }
             }
         
             if (includeThisTrain == true) {
-                // Add a random color to the train about to be added.
-                int red   = (int)(255 * rand.nextFloat());
-                int green = (int)(255 * rand.nextFloat());
-                int blue  = (int)(255 * rand.nextFloat());
-                potentialTrain.trainColor = new Color(red, green, blue);
+                // Assign a random color to the train about to be added.
+                final int red   = (int)(255 * rand.nextFloat());
+                final int green = (int)(255 * rand.nextFloat());
+                final int blue  = (int)(255 * rand.nextFloat());
+                potentialTrain.setTrainColor(new Color(red, green, blue));
 
             trains.add(potentialTrain);
-
     
-                // trainIterator++;
-            }
-            
+            // trainIterator++;
+
+            }          
         }
 
-
-
         return trains;
-
     }  
 }

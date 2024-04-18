@@ -7,9 +7,17 @@ import java.util.ArrayList;
  */
 public class TrainInformation {
     // TODO: Change timeTableRows to private, if easily doable.
-    protected ArrayList<TimeTableRow> timeTableRows;
+    ArrayList<TimeTableRow> timeTableRows;
     private String trainNumber;
-    public Color trainColor;
+    private Color trainColor;
+
+    public Color getTrainColor() {
+        return trainColor;
+    }
+
+    public void setTrainColor(Color trainColor) {
+        this.trainColor = trainColor;
+    }
 
     public String getTrainNumber() {
         return this.trainNumber;
