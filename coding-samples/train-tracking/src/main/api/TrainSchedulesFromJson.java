@@ -1,12 +1,14 @@
-import java.awt.Color;
+package api;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Random;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import api.GetInformartionFromApi;
 
+import train.StationInformation;
+import train.TimeTableRow;
+import train.TrainInformation;
+import util.Colors;
 
 /* 
  * Class for gathering/parsing necessary train schedule information to be used by other classes.
@@ -14,33 +16,35 @@ import api.GetInformartionFromApi;
 public class TrainSchedulesFromJson {
     private StationInformation stationInfo;
 
-    TrainSchedulesFromJson(StationInformation stationInfo) {
+    public TrainSchedulesFromJson(StationInformation stationInfo) {
         this.stationInfo = stationInfo;
     }
 
-    /** 
+    /**
      * Gathers/parses necessary train and train schedule information.
-     * @param String station1: Three-letter station code for other end of used train route.
-     * @param String station2: Three-letter station code for other end of used train route.
-     * @return ArrayList<TrainInformation>: gathered train/train schedule information.
+     * 
+     * @param String station1: Two or three letter station code for other end of
+     *               used train route.
+     * @param String station2: Two or three letter station code for other end of
+     *               used train route.
+     * @return ArrayList<TrainInformation>: gathered train/train schedule
+     *         information.
      */
     public ArrayList<TrainInformation> run(String station1, String station2) {
 
-        Random rand = new Random();
-        
         GetInformartionFromApi api = new GetInformartionFromApi();
         JSONArray json = api.getTrainInfoFromApi(station1, station2);
-        
+
         ArrayList<TrainInformation> trains = new ArrayList<TrainInformation>();
         // int trainIterator = 0;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         final LocalDateTime timeNow = LocalDateTime.now();
         final LocalDateTime timeNowMinusXHours = timeNow.minusHours(4);
-        final LocalDateTime timeNowPlusXHours = timeNow.plusHours(4);      
+        final LocalDateTime timeNowPlusXHours = timeNow.plusHours(4);
         // final LocalDateTime timeNowMinusXHours = timeNow.minusMinutes(30);
-        // final LocalDateTime timeNowPlusXHours = timeNow.plusMinutes(30);  
+        // final LocalDateTime timeNowPlusXHours = timeNow.plusMinutes(30);
 
         for (Object train : json) {
             boolean includeThisTrain = true;
@@ -48,7 +52,8 @@ public class TrainSchedulesFromJson {
             JSONObject jsontrain = (JSONObject) train;
             String trainNumber = jsontrain.get("trainNumber").toString();
 
-            // Potential train candidate to be added. Only added if within given time limit from current time.
+            // Potential train candidate to be added. Only added if within given time limit
+            // from current time.
             TrainInformation potentialTrain = new TrainInformation();
             potentialTrain.setTrainNumber(trainNumber);
 
@@ -57,16 +62,17 @@ public class TrainSchedulesFromJson {
             // Parse out important timetable information from JSON.
             for (Object timetableRow : timetable) {
                 JSONObject jsonTimeTableRow = (JSONObject) timetableRow;
-                LocalDateTime scheduledTime = LocalDateTime.parse((String)jsonTimeTableRow.get("scheduledTime"), formatter);
+                LocalDateTime scheduledTime = LocalDateTime.parse((String) jsonTimeTableRow.get("scheduledTime"),
+                        formatter);
                 LocalDateTime actualTime;
                 if (jsonTimeTableRow.get("actualTime") == null) {
                     actualTime = null;
                 } else {
-                    actualTime = LocalDateTime.parse((String)jsonTimeTableRow.get("actualTime"), formatter);
+                    actualTime = LocalDateTime.parse((String) jsonTimeTableRow.get("actualTime"), formatter);
                 }
 
                 // No not include trains that have a timestamp > +-X hours from current time.
-                if (scheduledTime.isAfter(timeNowPlusXHours) || scheduledTime.isBefore(timeNowMinusXHours) ) {
+                if (scheduledTime.isAfter(timeNowPlusXHours) || scheduledTime.isBefore(timeNowMinusXHours)) {
                     includeThisTrain = false;
                 }
                 String stationShortCode = (String) jsonTimeTableRow.get("stationShortCode");
@@ -75,6 +81,7 @@ public class TrainSchedulesFromJson {
 
                 // We're only interested in station information for a specific route,
                 // represented by valid stations.
+
                 boolean ValidStation = false;
 
                 for (int i = 0; i < stationInfo.size(); i++) {
@@ -88,26 +95,23 @@ public class TrainSchedulesFromJson {
                     }
                 }
 
-                // For debugging only. No valid station identified.        
+                // For debugging only. No valid station identified.
                 // if (ValidStation == false );
-                // 
+                //
                 // }
             }
-        
+
             if (includeThisTrain == true) {
                 // Assign a random color to the train about to be added.
-                final int red   = (int)(255 * rand.nextFloat());
-                final int green = (int)(255 * rand.nextFloat());
-                final int blue  = (int)(255 * rand.nextFloat());
-                potentialTrain.setTrainColor(new Color(red, green, blue));
+                potentialTrain.setTrainColor(Colors.randomColor());
 
-            trains.add(potentialTrain);
-    
-            // trainIterator++;
+                trains.add(potentialTrain);
 
-            }          
+                // trainIterator++;
+
+            }
         }
 
         return trains;
-    }  
+    }
 }

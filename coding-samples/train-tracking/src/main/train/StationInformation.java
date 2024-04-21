@@ -1,34 +1,41 @@
+package train;
 /* 
  * Class for storing information regarding train stations, and their relative distances.
  */
 public class StationInformation {
     // TODO: Change StationInformation to singular and use as Arraylist?
-    // TODO: Use API for some or all station information? 
+    // TODO: Use API for some or all station information?
     // https://rata.digitraffic.fi/swagger/#/metadata/getStations
 
     // LPV-HKI
-    private String[] stationId = { "LPV", "MÄK", "PJM", "VMO", "HPL", "KHK", "ILA", "PSL", "HKI"};
-    private String[] stationName = { "Leppävaara", "Mäkkylä", "Pitäjänmäki", "Valimo", "Huopalahti", "Helsinki Kivihaka", "Ilmala asema", "Pasila asema", "Helsinki asema"};
-    // NOTE: Station with largest distance needs to be in lowest index. Need to change code if otherwise.
+    private String[] stationId = { "LPV", "MÄK", "PJM", "VMO", "HPL", "KHK", "ILA", "PSL", "HKI" };
+    private String[] stationName = { "Leppävaara", "Mäkkylä", "Pitäjänmäki", "Valimo", "Huopalahti",
+            "Helsinki Kivihaka", "Ilmala asema", "Pasila asema", "Helsinki asema" };
+    // NOTE: Station with largest distance needs to be in lowest index. Need to
+    // change code if otherwise.
     private double[] distance = { 11.2, 9.5, 8.5, 7.5, 6.4, 4.7, 4.4, 3.2, 0.2 };
     private double[] relativePosition = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private double[] relativePositionLabels = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     private String firstRouteStation = "LPV";
     private String lastRouteStation = "HKI";
 
-/*
-    // Alternative set of station and their distances. Comment out previous lines if wanting to try.
-    private String[] stationId = { "ÄKI", "SUO", "LAU", "VRI", "JY" };
-    private String[] stationName = { "Äänekoski", "Suolahti", "Laukaa", "Vihtavuori", "Jyväskylä"};
-    // NOTE: Station with largest distance needs to be in lowest index. Need to change code if otherwise.
-    private double[] distance = { 424.5, 417.8, 401.2, 395.2, 377.4};
-    private double[] relativePosition = { 0, 0, 0, 0, 0 };
-    private String firstRouteStation = "JY";
-    private String lastRouteStation = "%C3%84KI";
- */
+    /*
+     * // Alternative set of station and their distances. Comment out previous lines
+     * if wanting to try.
+     * private String[] stationId = { "ÄKI", "SUO", "LAU", "VRI", "JY" };
+     * private String[] stationName = { "Äänekoski", "Suolahti", "Laukaa",
+     * "Vihtavuori", "Jyväskylä"};
+     * // NOTE: Station with largest distance needs to be in lowest index. Need to
+     * change code if otherwise.
+     * private double[] distance = { 424.5, 417.8, 401.2, 395.2, 377.4};
+     * private double[] relativePosition = { 0, 0, 0, 0, 0 };
+     * private String firstRouteStation = "JY";
+     * private String lastRouteStation = "%C3%84KI";
+     */
 
-    StationInformation() {
-        // Calculate the relative position of each station based on distance for later use.
+    public StationInformation() {
+        // Calculate the relative position of each station based on distance for later
+        // use.
         // NOTE: Distances in this.distance needs to be in decending order!
         for (int i = 0; i < distance.length; i++) {
 
@@ -36,10 +43,9 @@ public class StationInformation {
             // relativePosition[i] = (((double) i / (double) (distance.length-1)) * 900.0);
             relativePositionLabels[i] = (((double) i / (double) (distance.length)) * 900.0);
 
-            
             // Distances using actual distances (currently graphs only, not labels).
             double largest = distance[0];
-            double smallest = distance[this.size()-1];
+            double smallest = distance[this.size() - 1];
             relativePosition[i] = (distance[i] - smallest) / (largest - smallest) * 900.0;
         }
     }
@@ -50,11 +56,11 @@ public class StationInformation {
 
     public double getRelativePosition(int index) {
         return relativePosition[index];
-    }    
+    }
 
     public double getRelativePositionLabels(int index) {
         return relativePositionLabels[index];
-    }    
+    }
 
     public String getStation1() {
         return this.firstRouteStation;
@@ -76,9 +82,11 @@ public class StationInformation {
         return distance[index];
     }
 
-    /** 
+    /**
      * Returns the index of a station being searched for.
-     * @param String searchId: Two or three letter short code for station who's index is needed.
+     * 
+     * @param String searchId: Two or three letter short code for station who's
+     *               index is needed.
      * @return Index of matching station. Return -1 if not found.
      */
     public int getIndexForStationId(String searchId) {

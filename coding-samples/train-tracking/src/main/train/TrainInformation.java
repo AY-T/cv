@@ -1,13 +1,13 @@
+package train;
 import java.awt.Color;
 import java.util.ArrayList;
-
 
 /* 
  * Class for storing needed train information.
  */
 public class TrainInformation {
     // TODO: Change timeTableRows to private, if easily doable.
-    ArrayList<TimeTableRow> timeTableRows;
+    public ArrayList<TimeTableRow> timeTableRows;
     private String trainNumber;
     private Color trainColor;
 
@@ -25,7 +25,7 @@ public class TrainInformation {
 
     public void setTrainNumber(String newName) {
         this.trainNumber = newName;
-    }    
+    }
 
     public void setTimeTableRows(ArrayList<TimeTableRow> timeTableRows) {
         this.timeTableRows = timeTableRows;
@@ -36,7 +36,7 @@ public class TrainInformation {
         timeTableRows = new ArrayList<TimeTableRow>();
     }
 
-    TrainInformation() {
+    public TrainInformation() {
         trainNumber = "";
         timeTableRows = new ArrayList<TimeTableRow>();
     }
@@ -44,6 +44,5 @@ public class TrainInformation {
     public void addToTimeTable(TimeTableRow newRow) {
         timeTableRows.add(newRow);
     }
-    
 
 }

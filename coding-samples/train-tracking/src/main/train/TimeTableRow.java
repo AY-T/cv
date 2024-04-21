@@ -1,3 +1,4 @@
+package train;
 import java.time.LocalDateTime;
 
 public class TimeTableRow {
@@ -22,7 +23,8 @@ public class TimeTableRow {
         return stopType;
     }
 
-    TimeTableRow(LocalDateTime addScheduledTime, LocalDateTime addActualTime, String addStationShortCode, String addStopType) {
+    public TimeTableRow(LocalDateTime addScheduledTime, LocalDateTime addActualTime, String addStationShortCode,
+            String addStopType) {
         this.scheduledTime = addScheduledTime;
         this.actualTime = addActualTime;
         this.stationShortCode = addStationShortCode;

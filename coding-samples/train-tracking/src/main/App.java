@@ -1,14 +1,21 @@
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
+import api.TrainSchedulesFromJson;
+import gui.DrawTrainWindow;
+import train.*;
+import train.StationInformation;
+
 /* 
  * Class for starting the application.
  */
 public class App {
-    /** 
-     * Main method for class. Does everything. Setups everything needed and passes work to DrawTrainWindow.draw().
+    /**
+     * Main method for class. Does everything. Setups everything needed and passes
+     * work to DrawTrainWindow.draw().
+     * 
      * @return void
-     */    
+     */
     public static void run() {
         // NOTE: Used route and station hard coded into StationInformation.
         StationInformation stationInfo = new StationInformation();
@@ -19,7 +26,8 @@ public class App {
         final String firstRouteStation = stationInfo.getStation1();
         final String lastRouteStation = stationInfo.getStation2();
 
-        // Get information from API on trains running between station1 and station2. Both ways. Combine results.
+        // Get information from API on trains running between station1 and station2.
+        // Both ways. Combine results.
         ArrayList<TrainInformation> trains = trainSchedules.run(firstRouteStation, lastRouteStation);
         ArrayList<TrainInformation> trainsOtherWayAround = trainSchedules.run(lastRouteStation, firstRouteStation);
         trains.addAll(trainsOtherWayAround);
