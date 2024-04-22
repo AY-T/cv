@@ -1,4 +1,5 @@
 package train;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -6,8 +7,7 @@ import java.util.ArrayList;
  * Class for storing needed train information.
  */
 public class TrainInformation {
-    // TODO: Change timeTableRows to private, if easily doable.
-    public ArrayList<TimeTableRow> timeTableRows;
+    private ArrayList<TimeTableRow> timeTableRows;   
     private String trainNumber;
     private Color trainColor;
 
@@ -43,6 +43,10 @@ public class TrainInformation {
 
     public void addToTimeTable(TimeTableRow newRow) {
         timeTableRows.add(newRow);
+    }
+
+    public ArrayList<TimeTableRow> getTimeTableRows() {
+        return timeTableRows;
     }
 
 }

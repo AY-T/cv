@@ -37,11 +37,12 @@ public class GetInformartionFromApi {
             InputStreamReader isReader = new InputStreamReader(gzipstream);
             BufferedReader in = new BufferedReader(isReader);
 
+            
             JSONParser parser = new JSONParser();
             json = (JSONArray) parser.parse(in);
 
         } catch (Exception e) {
-            System.out.print("Error: ");
+            System.out.print("Error with REST API or parsing JSON: ");
             System.out.println(e);
             System.exit(10);
         }

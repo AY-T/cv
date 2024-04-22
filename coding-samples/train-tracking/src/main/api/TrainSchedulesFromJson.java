@@ -27,10 +27,11 @@ public class TrainSchedulesFromJson {
      *               used train route.
      * @param String station2: Two or three letter station code for other end of
      *               used train route.
+     * @param int gapHours: Include trains with entries +-2 hours from current time.
      * @return ArrayList<TrainInformation>: gathered train/train schedule
      *         information.
      */
-    public ArrayList<TrainInformation> run(String station1, String station2) {
+    public ArrayList<TrainInformation> run(String station1, String station2, int gapHours) {
 
         GetInformartionFromApi api = new GetInformartionFromApi();
         JSONArray json = api.getTrainInfoFromApi(station1, station2);
@@ -41,8 +42,8 @@ public class TrainSchedulesFromJson {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
         final LocalDateTime timeNow = LocalDateTime.now();
-        final LocalDateTime timeNowMinusXHours = timeNow.minusHours(4);
-        final LocalDateTime timeNowPlusXHours = timeNow.plusHours(4);
+        final LocalDateTime timeNowMinusXHours = timeNow.minusHours(gapHours);
+        final LocalDateTime timeNowPlusXHours = timeNow.plusHours(gapHours);
         // final LocalDateTime timeNowMinusXHours = timeNow.minusMinutes(30);
         // final LocalDateTime timeNowPlusXHours = timeNow.plusMinutes(30);
 
@@ -82,7 +83,7 @@ public class TrainSchedulesFromJson {
                 // We're only interested in station information for a specific route,
                 // represented by valid stations.
 
-                boolean ValidStation = false;
+                // boolean ValidStation = false;
 
                 for (int i = 0; i < stationInfo.size(); i++) {
                     if (stationShortCode.equals(stationInfo.getStationId(i))) {
@@ -91,7 +92,7 @@ public class TrainSchedulesFromJson {
 
                         potentialTrain.addToTimeTable(newRow);
 
-                        ValidStation = true;
+                        // ValidStation = true;
                     }
                 }
 

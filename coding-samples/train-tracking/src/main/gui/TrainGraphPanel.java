@@ -1,7 +1,5 @@
 package gui;
 
-
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -44,15 +42,13 @@ public class TrainGraphPanel extends JPanel {
     }
 
     /**
-     * Automatically called by Java. Does main work for class TrainGraphPanel.
-     * 
+     * Method automatically called by Java. Does main work for class TrainGraphPanel.
+     * @param Grahics g: Object handle given by Java for drawing on the object.
      * @return void
      */
     public void paint(Graphics g) {
         super.paint(g);
 
-        // TODO: Cannot find train name info on API (using train numbers).
-        // TODO: Fix y-positioning using relative station distances. 
         // TODO: Add small vertical lines at y-position of stations?
         // TODO: Actual times currently combined with scheduled times.
 
@@ -79,7 +75,7 @@ public class TrainGraphPanel extends JPanel {
             int prevX = -1;
             int prevY = -1;
 
-            for (TimeTableRow timeTableRow : train.timeTableRows) {
+            for (TimeTableRow timeTableRow : train.getTimeTableRows()) {
 
                 int xCoordinate = 0;
                 int yCoordinate = 0;
@@ -104,10 +100,7 @@ public class TrainGraphPanel extends JPanel {
                     outBounds++;
                 }
 
-                // Index (and thus relative y-position) for the station currently being
-                // processed.
-                // NOTE: Current implementation positions stations evenly. Changed in class
-                // StationInformation.
+                // Index (and relative y-position) for the station currently being processed.
                 int stationIndex = stationInfo.getIndexForStationId(timeTableRow.getStationShortCode().toUpperCase());
                 yCoordinate = (int) (900 - stationInfo.getRelativePosition(stationIndex));
 

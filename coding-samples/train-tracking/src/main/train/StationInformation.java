@@ -1,53 +1,74 @@
 package train;
+
 /* 
  * Class for storing information regarding train stations, and their relative distances.
  */
 public class StationInformation {
-    // TODO: Change StationInformation to singular and use as Arraylist?
-    // TODO: Use API for some or all station information?
-    // https://rata.digitraffic.fi/swagger/#/metadata/getStations
+    private String[] stationId;
+    private String[] stationName;
+    private double[] distance;
+    private double[] relativePosition;
+    private double[] relativePositionLabels;
+    private String firstRouteStation;
+    private String lastRouteStation;
 
-    // LPV-HKI
-    private String[] stationId = { "LPV", "MÄK", "PJM", "VMO", "HPL", "KHK", "ILA", "PSL", "HKI" };
-    private String[] stationName = { "Leppävaara", "Mäkkylä", "Pitäjänmäki", "Valimo", "Huopalahti",
-            "Helsinki Kivihaka", "Ilmala asema", "Pasila asema", "Helsinki asema" };
-    // NOTE: Station with largest distance needs to be in lowest index. Need to
-    // change code if otherwise.
-    private double[] distance = { 11.2, 9.5, 8.5, 7.5, 6.4, 4.7, 4.4, 3.2, 0.2 };
-    private double[] relativePosition = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    private double[] relativePositionLabels = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    private String firstRouteStation = "LPV";
-    private String lastRouteStation = "HKI";
-
-    /*
-     * // Alternative set of station and their distances. Comment out previous lines
-     * if wanting to try.
-     * private String[] stationId = { "ÄKI", "SUO", "LAU", "VRI", "JY" };
-     * private String[] stationName = { "Äänekoski", "Suolahti", "Laukaa",
-     * "Vihtavuori", "Jyväskylä"};
-     * // NOTE: Station with largest distance needs to be in lowest index. Need to
-     * change code if otherwise.
-     * private double[] distance = { 424.5, 417.8, 401.2, 395.2, 377.4};
-     * private double[] relativePosition = { 0, 0, 0, 0, 0 };
-     * private String firstRouteStation = "JY";
-     * private String lastRouteStation = "%C3%84KI";
+    /**
+     * Calculate the relative position of each station based on distance for later
+     * use.
+     * Called by constructors.
+     * NOTE: Once only a single dynamic constructor, this method become obsolete.
      */
+    private void calculateRelativePositions() {
 
-    public StationInformation() {
-        // Calculate the relative position of each station based on distance for later
-        // use.
         // NOTE: Distances in this.distance needs to be in decending order!
         for (int i = 0; i < distance.length; i++) {
 
+            // Distances using actual distances
+            final double largest = distance[0];
+            final double smallest = distance[this.size() - 1];
+            this.relativePosition[i] = (distance[i] - smallest) / (largest - smallest) * 900.0;
+
             // Tested and works: Linear relative distances
             // relativePosition[i] = (((double) i / (double) (distance.length-1)) * 900.0);
-            relativePositionLabels[i] = (((double) i / (double) (distance.length)) * 900.0);
-
-            // Distances using actual distances (currently graphs only, not labels).
-            double largest = distance[0];
-            double smallest = distance[this.size() - 1];
-            relativePosition[i] = (distance[i] - smallest) / (largest - smallest) * 900.0;
+            this.relativePositionLabels[i] = (distance[i] - smallest) / (largest - smallest) * 900.0;
         }
+    }
+
+    /**
+     * Default constructor for trains running between Leppävaara and Helsinki Asema
+     */
+    public StationInformation() {
+        stationId = new String[] { "LPV", "MÄK", "PJM", "VMO", "HPL", "KHK", "ILA", "PSL", "HKI" };
+        stationName = new String[] { "Leppävaara", "Mäkkylä", "Pitäjänmäki", "Valimo", "Huopalahti",
+                "Helsinki Kivihaka", "Ilmala asema", "Pasila asema", "Helsinki asema" };
+        // NOTE: Station with largest distance needs to be in lowest index.
+        distance = new double[] { 11.2, 9.5, 8.5, 7.5, 6.4, 4.7, 4.4, 3.2, 0.2 };
+        relativePosition = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        relativePositionLabels = new double[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        firstRouteStation = "LPV";
+        lastRouteStation = "HKI";
+
+        calculateRelativePositions();
+    }
+
+    /**
+     * Alternative constructor meant for trains running between other stations.
+     */
+    public StationInformation(String route) {
+        // Currently only implemented for the being called with "JKÄKI"
+        if (route.equals("JKÄKI")) {
+            stationId = new String[] { "ÄKI", "SUO", "LAU", "VRI", "JK" };
+            stationName = new String[] { "Äänekoski", "Suolahti", "Laukaa",
+                    "Vihtavuori", "Jyväskylä" };
+            // NOTE: Station with largest distance needs to be in lowest index.
+            distance = new double[] { 424.5, 417.8, 401.2, 395.2, 377.4 };
+            relativePosition = new double[] { 0, 0, 0, 0, 0 };
+            relativePositionLabels = new double[] { 0, 0, 0, 0, 0 };
+            firstRouteStation = "JY";
+            lastRouteStation = "%C3%84KI";
+        }
+
+        calculateRelativePositions();
     }
 
     public int size() {

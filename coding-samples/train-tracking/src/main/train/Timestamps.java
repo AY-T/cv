@@ -23,7 +23,7 @@ public class Timestamps {
         LocalDateTime firstDateTime = LocalDateTime.parse("3000-01-01T00:00:00.001Z", formatter);
 
         for (TrainInformation train : trains) {
-            for (TimeTableRow timeTableRow : train.timeTableRows) {
+            for (TimeTableRow timeTableRow : train.getTimeTableRows()) {
                 if (timeTableRow.getScheduledTime().isBefore(firstDateTime)) {
                     firstDateTime = timeTableRow.getScheduledTime();
                 }
@@ -55,7 +55,7 @@ public class Timestamps {
         LocalDateTime lastDateTime = LocalDateTime.parse("1900-01-01T00:00:00.001Z", formatter);
 
         for (TrainInformation train : trains) {
-            for (TimeTableRow timeTableRow : train.timeTableRows) {
+            for (TimeTableRow timeTableRow : train.getTimeTableRows()) {
                 if (timeTableRow.getScheduledTime().isAfter(lastDateTime)) {
                     lastDateTime = timeTableRow.getScheduledTime();
                 }
