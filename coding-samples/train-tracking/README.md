@@ -7,7 +7,7 @@
 
 ### Running
 * Runnable with the Windows Command promt / Linux shell.
-* Go to directory "train-tracking" and run the folloing command 
+* Go to directory "train-tracking" and run the following command 
   - java -jar train-tracking.jar
 
 ### Compiling
@@ -16,6 +16,7 @@
 
 ### Notes and TODOs
 * Code would benefit from refactoring. Ran out of time initially.
+* Could include more checks and error handling.
 * Train graph lines and station labels now take into account actual station distances.
 * Actual train times are combined with scheduled times, since given API gives out very few actual times.
 * API doesn't seem to give train names, only train numbers, so train names could not be implemented.
