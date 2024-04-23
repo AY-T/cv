@@ -12,9 +12,11 @@ import train.StationInformation;
  */
 public class LeftPanel extends JPanel {
     private StationInformation stationInfo;
+    private int height;
 
-    public LeftPanel(StationInformation stationInfo) {
-        this.setBounds(10, 50, 90, 900);
+    public LeftPanel(StationInformation stationInfo, int height, int width) {
+        this.height = height;
+        this.setBounds(10, 50, width, height);
         this.setBackground(Color.LIGHT_GRAY);
         this.stationInfo = stationInfo;
     }
@@ -39,7 +41,7 @@ public class LeftPanel extends JPanel {
             String stationName = stationInfo.getStationName(i);
 
             if (i == stationInfo.size() - 1) {
-                g2d.drawString(stationName, 5, (900 - FONTSIZE));
+                g2d.drawString(stationName, 5, (this.height - FONTSIZE));
             } else if (i == 0) {
                 g2d.drawString(stationName, 5, (yPosition + FONTSIZE));
             } else if (i >= 1 && i < stationInfo.size()) {

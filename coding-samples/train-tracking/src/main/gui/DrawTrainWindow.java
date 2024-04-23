@@ -86,7 +86,7 @@ public class DrawTrainWindow {
         windowFrame.add(topLeftCornerPanel);
 
         // Panel for text on the left.
-        LeftPanel leftPanel = new LeftPanel(stationInfo);
+        LeftPanel leftPanel = new LeftPanel(stationInfo, this.GRAPHHEIGHT, this.PANELWIDTH);
 
         // Panel for the top right corner. Mainly aesthetics.
         JPanel topRightCornerPanel = new JPanel();

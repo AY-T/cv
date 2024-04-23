@@ -58,7 +58,7 @@ public class TrainGraphPanel extends JPanel {
         LocalDateTime timeNow = LocalDateTime.now();
         int nowSeconds = 60 * timeNow.getHour() + timeNow.getMinute();
         int xNow = (int) ((((float) nowSeconds - (float) zeroPoint) / ((float) endPoint - (float) zeroPoint))
-                * 1400.0f);
+                * (float) this.width);
         g2d.setStroke(new BasicStroke(5));
         g2d.setPaint(new Color(0, 255, 0));
         g2d.drawLine(xNow, 0, xNow, this.heigth);
@@ -93,7 +93,7 @@ public class TrainGraphPanel extends JPanel {
                 xCoordinate = (int) ((((float) totalMinutesToUse - (float) zeroPoint)
                         / ((float) endPoint - (float) zeroPoint)) * 1400.0f);
 
-                if (xCoordinate > 1400) {
+                if (xCoordinate > this.width) {
                     outBounds++;
                 }
                 if (xCoordinate < 0) {
@@ -102,7 +102,7 @@ public class TrainGraphPanel extends JPanel {
 
                 // Index (and relative y-position) for the station currently being processed.
                 int stationIndex = stationInfo.getIndexForStationId(timeTableRow.getStationShortCode().toUpperCase());
-                yCoordinate = (int) (900 - stationInfo.getRelativePosition(stationIndex));
+                yCoordinate = (int) (this.heigth - stationInfo.getRelativePosition(stationIndex));
 
                 // No line to draw on the first row of each time table (two points needed for a
                 // line).
