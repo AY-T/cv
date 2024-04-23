@@ -31,6 +31,7 @@ public class App {
 
         // Get information from API on trains running between station1 and station2.
         // Both ways. Combine results.
+        // NOTE: Consider using List instead of ArrayList.
         ArrayList<TrainInformation> trains = trainSchedules.run(firstRouteStation, lastRouteStation, timeSpan);
         ArrayList<TrainInformation> trainsOtherWayAround = trainSchedules.run(lastRouteStation, firstRouteStation, timeSpan);
         trains.addAll(trainsOtherWayAround);

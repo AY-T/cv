@@ -29,6 +29,8 @@ public class GetInformartionFromApi {
 
         JSONArray json = null;
 
+        // Add check for REST return code.
+
         try {        
             HttpResponse<InputStream> response = HttpClient.newHttpClient()
 	        .send(request, HttpResponse.BodyHandlers.ofInputStream());
