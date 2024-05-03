@@ -3,7 +3,7 @@
 * Tracks trains between "Leppävaara" and "Helsinki Asema".
 * Also tested between "Jyväskylä" and "Äänekoski".
 * The two axes represent distance (represented by stations) and time, with the thick green vertical line indicating time now.
-* Only shows trains whose timetable entries are within 4 hours of current time.
+* Only shows trains whose timetable entries are within 1 hours of current UTC time.
 
 ### Running
 * Runnable with the Windows Command promt / Linux shell.
@@ -14,13 +14,19 @@
 * To compile the project, you need to add file "lib\json-simple-1.1.1.jar" to the project. Other libraries should be standard libraries.
 * Use "javac -classpath lib\json-simple-1.1.1.jar "
 
+### Important changes
+* 2024-05-03
+    * Fixed bug regarding UTC time vs. local time. Used timezone wasn't well documented in used API.
+    * Reduced time window to +- 1 hour from current UTC time.
+
 ### Notes and TODOs
 * Code would benefit from refactoring. Ran out of time initially.
 * Could include more checks and error handling.
 * Train graph lines and station labels now take into account actual station distances.
-* Actual train times are combined with scheduled times, since given API gives out very few actual times.
+* Draw different graphs for Actual times and Scheduled time, instead of combining them.
 * API doesn't seem to give train names, only train numbers, so train names could not be implemented.
 * Hover over line showing train name not implemented. Not even tried, as API seems to lack train names requested. Possibly later with something like GeneralPath.
+* Need to change lines to objects if hover fuctionality to be implemented.
 * Button to switch axes no implemented due to lack of time. (Not sure what the added value in changing axes is either)
 * Current implementation is not realtime, i.e. app doesn't update graph. Possible future improvement.
 * Hasn't been tested if used is outside Finnish timezone. Probably doesn't work.

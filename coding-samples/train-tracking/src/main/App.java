@@ -18,7 +18,7 @@ public class App {
      */
     public static void run() {
         // Amount of hours before and after current time to accept train timestamps for.
-        final int timeSpan = 4;
+        final int timeSpan = 1;
 
         // NOTE: Used route and station hard coded into StationInformation.
         StationInformation stationInfo = new StationInformation();

@@ -1,5 +1,6 @@
 package api;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import org.json.simple.JSONArray;
@@ -41,7 +42,8 @@ public class TrainSchedulesFromJson {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
-        final LocalDateTime timeNow = LocalDateTime.now();
+        // NOTE: By not passing on time from API might cause a bug if run at the millisecond when date changes.
+        final LocalDateTime timeNow = LocalDateTime.now(ZoneId.of("UTC"));
         final LocalDateTime timeNowMinusXHours = timeNow.minusHours(gapHours);
         final LocalDateTime timeNowPlusXHours = timeNow.plusHours(gapHours);
         // final LocalDateTime timeNowMinusXHours = timeNow.minusMinutes(30);

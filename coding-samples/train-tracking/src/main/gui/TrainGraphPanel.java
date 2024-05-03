@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -55,7 +56,7 @@ public class TrainGraphPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         // Draw current time as a thick green vertical line.
-        LocalDateTime timeNow = LocalDateTime.now();
+        LocalDateTime timeNow = LocalDateTime.now(ZoneId.of("UTC"));
         int nowSeconds = 60 * timeNow.getHour() + timeNow.getMinute();
         int xNow = (int) ((((float) nowSeconds - (float) zeroPoint) / ((float) endPoint - (float) zeroPoint))
                 * (float) this.width);
