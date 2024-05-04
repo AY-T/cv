@@ -21,11 +21,11 @@ class BaseController {
             // Added handling of query parameters as part of task 4.
             let conditions = '';
 
+            // Parse query parameters if present, and later add them to the SQL query.
             if (Object.keys(req.query).length !== 0 ) {
                 conditions = conditions.concat(' WHERE ')
 
                 for (let condition in req.query) {
-                    // console.info(condition + ' = \'' + req.query[condition] + '\'');
                     const key = condition.toString();
                     const value = req.query[condition].toString();
                     const conditionToAdd = key + ' = \'' + value + '\' and ';
@@ -36,7 +36,6 @@ class BaseController {
                 conditions = conditions.slice(0, -4);
                 conditions = conditions.concat(' ');
 
-                // console.info(conditions);
             }
 
             query = query.concat(conditions + ';');

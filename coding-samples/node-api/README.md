@@ -1,11 +1,15 @@
-## Readme
+# Readme
 * Unlike other subdirectories in coding-samples/, most of the code under this directory isn't mine. Rather this "coding sample" task was all about reading and fixing code, and adding expanding functionalities to existing code. See README in demo-api for further details on the task.
 * I've tried to specify the sections of code that are written by me (not including e.g. small bug fixes included in given tasks). Unmarked code should be assumed to be someone else's.
+* Proabably could've used more of the included libraries, but it was just simpler to (re)implement some fuctionalities oneself than to familiarize oneself with all the included libraraties (use of other 3rd party libraries was forbidden in tasking).
 
+
+
+## Answers to given tasks
 
 ### Task 0.1
-* "app" was defined after this line. Moved to before it.
-    * const server = http.createServer(app)
+* "**app**" was defined after the line below. Moved to before the below line.
+    * const server = http.createServer(**app**)
 
 ### Task 0.2
 * Typo in SQL syntax (missing a space).
@@ -19,7 +23,14 @@
 
 
 ### Task 3
+* Added PUT functionality.
 ![Task 3 successful call](task3.jpg)
 
 ### Task 4
+* Added using query parameters (if present) with GET.
 ![Task 4 successful call](task4.jpg)
+
+### Task 5
+* Added functionality to get all lines of a sales order to endpoint http://localhost:3001/demo-api/salesorders/**id**/salesorderlines
+    * **id** is the sale order ID to be matched.
+![Task 4 successful call](task5.jpg)
