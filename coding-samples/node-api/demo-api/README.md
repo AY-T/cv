@@ -1,5 +1,5 @@
 
-# Devoca Demo REST API assignment
+# ANONYMOUS CORPORATION Demo REST API assignment
 
 This is a practice assignment that implements a simple REST API.
 

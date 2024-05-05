@@ -31,6 +31,18 @@
 ![Task 4 successful call](task4.jpg)
 
 ### Task 5
-* Added functionality to get all lines of a sales order to endpoint http://localhost:3001/demo-api/salesorders/**id**/salesorderlines
+* Added functionality to get all lines of a sales order to endpoint http://localhost:3001/demo-api/salesorders/id/salesorderlines
     * **id** is the sale order ID to be matched.
-![Task 4 successful call](task5.jpg)
+![Task 5 successful call](task5.jpg)
+
+### Task 6
+* Added functionality to POST to endpoint http://localhost:3001/demo-api/salesorders/id/salesorderlines with included product information.
+    * This task requires several SQL calls, which should be separate as to not introduce SQL insertion vulnerabilities. 
+    * It was clear from the start that JS's asynchronous calls caused problems, but the task still took a while as I had to refresh myself on JS's Promises to solve the issue.
+![Task 6 successful call](task6.jpg)
+
+### Task 7
+* Not yet done.
+
+### Task 8
+* Table "salesorders" should require "number" to be unique.
