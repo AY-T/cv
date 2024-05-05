@@ -102,7 +102,7 @@ class SalesOrderController extends BaseController {
 
             // Wait 'quantity', 'customer' and 'status' to be added to database. Then if needed, ass 'lines' to salesorderlines.
             promise.then((message) => {
-                // Only add to databes if POST included lines to be added to salesorderlines.
+                // Only add product lines to salesorderlines if POST included product lines.
                 if (includesLines == 1) {
                     let valuesString = '(';
                     for (let i = 0; i < salesOrderProductIds.length; i++) {

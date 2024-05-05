@@ -2,7 +2,7 @@
 * Unlike other subdirectories in coding-samples/, most of the code under this directory isn't mine. Rather this "coding sample" task was all about reading and fixing code, and adding expanding functionalities to existing code. See README in demo-api for further details on the task.
 * I've tried to specify the sections of code that are written by me (not including e.g. small bug fixes included in given tasks). Unmarked code should be assumed to be someone else's.
 * Proabably could've used more of the included libraries, but it was just simpler to (re)implement some fuctionalities oneself than to familiarize oneself with all the included libraraties (use of other 3rd party libraries was forbidden in tasking).
-
+* Stylewise, the implementation isn't the best. Part of what is implemented in child classes could be in baseController, with inheriting classes calling .super() for content common for both salesorders and products.
 
 
 ## Answers to given tasks
@@ -47,3 +47,4 @@
 
 ### Task 8
 * Table "salesorders" should require "number" to be unique.
+* Is there any benefit for having a separate table for customers? "customers" table could contain stuff like their contact information, address, etc.
