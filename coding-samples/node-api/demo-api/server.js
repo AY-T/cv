@@ -19,16 +19,16 @@ router.use(function (req, res, next) {
 app.use(function (req, res, next) {
     req.uuid = uuid.v4();
     console.info('[ Incoming request ] [ %s ] %s %s %o', req.uuid, req.method, req.url, req.headers);
-    if (req.body &&  Object.keys(req.body).length > 0) {
+    if (req.body && Object.keys(req.body).length > 0) {
         console.info('[ %s ] [ Incoming request body ] %o', req.uuid, req.body);
     }
     next();
 });
 app.use(bodyParser.urlencoded({
-        extended: true
+    extended: true
 }));
 app.use(bodyParser.json({
-        limit: '100mb'
+    limit: '100mb'
 }));
 
 app.use('/demo-api', router);
@@ -42,7 +42,7 @@ app.use(function (err, req, res, next) {
 new SalesOrderController('salesorders', router);
 new ProductController('products', router);
 
-server.listen(port,  function () {
+server.listen(port, function () {
     // Check if we are running as root
     if (typeof process.getgid === 'function' && process.getgid() === 0) {
         process.setgid('www-data');

@@ -11,18 +11,15 @@ class BaseController {
         /* get all */
         router.get('/' + endpoint, function (req, res, next) {
 
-
-
-
             const connection = sqlConnection.createConnection();
             let query = 'SELECT * FROM ' + endpoint + ' ';
-            
+
+            // CODE MADE BY REPO OWNER
             // Added handling of query parameters as part of task 4.
-            // Example of working query: SELECT * FROM `demo-api`.products WHERE code = '00001' and name = 'Kangaspala';
             let conditions = '';
 
             // Parse query parameters if present, and later add them to the SQL query.
-            if (Object.keys(req.query).length !== 0 ) {
+            if (Object.keys(req.query).length !== 0) {
                 conditions = conditions.concat(' WHERE ')
 
                 for (let condition in req.query) {
@@ -40,9 +37,7 @@ class BaseController {
 
             query = query.concat(conditions + ';');
 
-            // console.info(query);
-
-            // END OF: Added handling of query parameters as part of task 4.
+            // END OF: CODE MADE BY REPO OWNER
 
             connection.query(query, function (error, results, fields) {
                 connection.end();
@@ -62,6 +57,8 @@ class BaseController {
             });
         });
 
+        // CODE MADE BY REPO OWNER
+        // Added functionality for PUT as part of Task 3.
         /* update existing one */
         router.put('/' + endpoint + '/:id', function (req, res, next) {
             const body = req.body;
@@ -71,8 +68,6 @@ class BaseController {
 
             let query = 'UPDATE ' + endpoint + ' SET ';
             for (let key in body) {
-                // columns.push(key);
-                // values.push('\'' + body[key] + '\'');
                 query += '' + key + ' = \'' + body[key] + '\'';
                 query += ', ';
             }
@@ -82,19 +77,14 @@ class BaseController {
 
             query += 'WHERE id = \'' + req.params.id + '\';';
 
-            /*
-            console.info("======================");
-            console.info(query);
-            console.info("======================");
-            */
-
             connection.query(query, function (error, results, fields) {
                 connection.end();
                 if (error) next(error);
                 res.json(results);
             });
-            
+
         });
+        // CODE MADE BY REPO OWNER
     }
 }
 module.exports = BaseController;
