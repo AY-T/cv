@@ -36,9 +36,10 @@
 ![Task 5 successful call](task5.jpg)
 
 ### Task 6
-* Added functionality to POST to endpoint http://localhost:3001/demo-api/salesorders/id/salesorderlines with included product information.
+* Added functionality to POST to endpoint http://localhost:3001/demo-api/salesorders/id/salesorderlines which can now include product information.
     * This task requires several SQL calls, which should be separate as to not introduce SQL insertion vulnerabilities. 
     * It was clear from the start that JS's asynchronous calls caused problems, but the task still took a while as I had to refresh myself on JS's Promises to solve the issue.
+    * Also rechecked all previous POST tasks after this one to make sure they still work. (They do.)
 ![Task 6 successful call](task6.jpg)
 
 ### Task 7
