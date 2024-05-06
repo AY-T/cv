@@ -43,7 +43,12 @@
 ![Task 6 successful call](task6.jpg)
 
 ### Task 7
-* Not yet done.
+* Note that tasking JSON contains an error: an extra comma after "operation": "delete".
+* Solution could be way more robust. Currently it succeeds in processing the input from Task 7, but not tested if every possible case is covered for salesorderlines.
+* Rows in salesorderlines are surrently update asynchronously.
+* No pre-SQL checks are made for foreign key validity.
+* Currenly only returns the salesorder being handled, and not the salesorderlines that were processed.
+![Task 7 successful call](task7.jpg)
 
 ### Task 8
 * Table "salesorders" should require "number" to be unique.

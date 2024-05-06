@@ -15,6 +15,7 @@ class ProductController extends BaseController {
 
     addRoutes(endpoint, router) {
         /* create new product */
+
         router.post('/' + endpoint, function (req, res, next) {
             const body = req.body;
             const columns = [];
@@ -33,6 +34,35 @@ class ProductController extends BaseController {
                 res.json(results);
             });
         });
+
+        // CODE MADE BY REPO OWNER
+        // Added functionality for PUT.
+        /* update existing one */
+        router.put('/' + endpoint + '/:id', function (req, res, next) {
+            const body = req.body;
+            const columns = [];
+            const values = [];
+            const connection = sqlConnection.createConnection();
+
+            let query = 'UPDATE ' + endpoint + ' SET ';
+            for (let key in body) {
+                query += '' + key + ' = \'' + body[key] + '\'';
+                query += ', ';
+            }
+
+            // Remove trailing comma
+            query = query.slice(0, -2) + ' ';
+
+            query += 'WHERE id = \'' + req.params.id + '\';';
+
+            connection.query(query, function (error, results, fields) {
+                connection.end();
+                if (error) next(error);
+                res.json(results);
+            });
+
+        });
+        // CODE MADE BY REPO OWNER
     }
 
 

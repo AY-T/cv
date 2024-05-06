@@ -100,7 +100,7 @@ class SalesOrderController extends BaseController {
                 })
             });
 
-            // Wait 'quantity', 'customer' and 'status' to be added to database. Then if needed, ass 'lines' to salesorderlines.
+            // Wait 'quantity', 'customer' and 'status' to be added to database. Then if needed, add 'lines' to salesorderlines.
             promise.then((message) => {
                 // Only add product lines to salesorderlines if POST included product lines.
                 if (includesLines == 1) {
@@ -127,6 +127,119 @@ class SalesOrderController extends BaseController {
 
         });
         // END OF: CODE MADE BY REPO OWNER
+
+        // CODE MADE BY REPO OWNER
+        // Added functionality for PUT.
+        /* update existing one */
+        router.put('/' + endpoint + '/:id', function (req, res, next) {
+            const body = req.body;
+            const connection = sqlConnection.createConnection();
+            let includesLines = 0;
+            let allLines = [];
+            let salesOrderId  = req.params.id;
+
+            let query = 'UPDATE ' + endpoint + ' SET ';
+
+            for (let key in body) {
+                if (key.localeCompare("lines") === 0) {
+                    includesLines = 1;
+                    allLines = body[key];
+                }
+                else if (key.localeCompare("number") === 0 || key.localeCompare("customer") === 0 || key.localeCompare("status") === 0) {
+                    query += '' + key + ' = \'' + body[key] + '\'';
+                    query += ', ';
+                }
+            }
+
+            // Remove trailing comma
+            query = query.slice(0, -2) + ' ';
+
+            query += 'WHERE id = \'' + req.params.id + '\';';
+
+            const promise = new Promise((resolve, reject) => {
+                connection.query(query, function (error, results, fields) {
+                    if (error) {
+                        next(error);
+                        reject(error);
+                    }
+
+                    resolve(salesOrderId);
+
+                    // If true, there's nothing else to do. Close SQL connection and return results.
+                    // Otherwise we do additional stuff in promise.then() and do these steps there.
+                    if (includesLines == 0) {
+                        connection.end();
+                        res.json(results);
+                    }
+                })
+
+            });
+
+            // Wait for 'quantity', 'customer' and 'status' to be added to database. Then if needed, process salesorderlines.
+            // NOTE: Should "if (includesLines == 1)" be before this for better performance?
+            promise.then((message) => {
+                // Only add product lines to salesorderlines if POST included product lines.
+                if (includesLines == 1) {
+
+                    query = '';
+
+                    for (let i = 0; i < allLines.length; i++) {
+                        const operation = allLines[i]["operation"];
+                        const quantity = allLines[i]["quantity"];
+                        const productId = allLines[i]["product_id"];
+                        const id = allLines[i]["id"];
+
+                        // "Operation" always needs to be specified.
+                        if (operation === undefined) {
+                            throw new Error('Operation on specified for salesorderlines line!');
+                        }
+                        // "Update" and "Delete" require a valid id.
+                        else if ( (operation === "update" || operation === "delete") && id === undefined ) {
+                            throw new Error('ID not specified for salesorderlines line update/delete!');
+                        }
+                        else if (operation === "update" && (quantity === undefined || productId === undefined) ) {
+                            throw new Error('UPDATE for salesorderlines line requires all the following defines: quantity, product_id');
+                        }
+                        
+                        if (operation === "update") {
+
+                            // TODO: Need to check if product_id matches a valid ID?
+                            query = 'UPDATE salesorderlines SET';
+                            query += ' quantity = \'' + quantity + '\', ' + 'product_id = \'' + productId + '\'';
+                            query += ' WHERE id = ' + id + ';';
+                        } 
+                        else if (operation === "delete") {
+                            query = 'DELETE FROM salesorderlines WHERE id = \'' + id + '\';';
+                        } 
+                        else if (operation === "create") {
+                            query = 'INSERT INTO salesorderlines (quantity, product_id, sales_order_id) VALUES (' + quantity + ', ' + productId + ', ' + salesOrderId + ');';
+                        }
+
+                        // Assuming salesorderlines changes are mutually exclusive. Otherwise need to add waiting for previous query to finish.
+                        connection.query(query, function (error, results, fields) {
+                            if (error) next(error);
+                        });
+
+                    }
+
+                    // Query to return original salesorder as results for whole POST.
+                    query = 'SELECT * FROM ' + endpoint + ' WHERE id = ' + req.params.id + ';';      
+
+                    connection.query(query, function (error, results, fields) {
+                        connection.end();
+                        if (error) next(error);
+                        res.json(results);
+                    });
+
+
+                }
+                
+            }).catch((message) => {
+                console.info("Error inside Promise: " + message);
+            });
+
+        });
+        // CODE MADE BY REPO OWNER
     }
 }
 
