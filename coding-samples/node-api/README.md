@@ -52,6 +52,7 @@
 
 ### Task 8
 * Table "salesorders" should require "number" to be unique.
+* Table "products" should require "code" to be unique.
 * Is there any benefit for having a separate table for customers? "customers" table could contain stuff like their contact information, address, etc.
     * Linked to salesorders.
 * Should there be a separate table for products? E.g. their total in our warehouse currently (only sell products that are in stock), item weird and size for shipping purposes.
